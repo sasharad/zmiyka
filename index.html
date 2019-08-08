@@ -70,7 +70,7 @@
       };
 
       var drawScore = function(){
-        ctx.font = "20px Courier";
+        ctx.font = "15px Courier";
         ctx.fillStyle = "Blue";
         ctx.textAllign = "left";
         ctx.textBaseLine = "top";
@@ -113,7 +113,9 @@
           snake.draw();
           apple.draw();
           drawBorder();
-          blockSize = 10;
+          widthInBlocks = 160;
+          heightInBlocks = 100;
+          blockSize = 5;
           blockSize
         }
       }
@@ -125,9 +127,9 @@
           snake.draw();
           apple.draw();
           drawBorder();
-          widthInBlocks = 53.333333333333336;
-          heightInBlocks = 33.333333333333336;
-          blockSize = 15;
+          heightInBlocks = 50;
+          widthInBlocks = 80;
+          blockSize = 10;
           blockSize
         }
       }
