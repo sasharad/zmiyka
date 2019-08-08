@@ -2,18 +2,48 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <link href="style.css" rel="stylesheet">
+
     <title>zmiyka</title>
   </head>
   <body>
-    <canvas id="canvas" width="500" height="500"></canvas>
 
-    <p id="begginer">новичок</p>
-    <p id="advanced">продвинутый</p>
-    <p id="expert">эксперт</p>
+    <div class="mainBlock">
+      <div class="block1">
+        <canvas id="canvas" width="800" height="500"></canvas>
+      </div>
+
+      <div class="block2">
+        <div class="blockIn1">
+          <div id="begginer" class="p1">
+            <p >новичок</p>
+          </div>
+          <div id="advanced" class="p1">
+            <p >продвинутый</p>
+          </div>
+          <div id="expert" class="p1">
+            <p >эксперт</p>
+          </div>
+      </div>
+      <div class="blockIn2">
+        <div id="size1" class="p1">
+          <p >большое поле</p>
+        </div>
+        <div id="size2" class="p1">
+          <p >среднее поле</p>
+        </div>
+        <div id="size3" class="p1">
+          <p >маленькое поле</p>
+        </div>
+      </div>
+      </div>
+    </div>
+    <p id="restart">restart</p>
 
     <script src="https://code.jquery.com/jquery-2.1.0.js"></script>
 
     <script>
+
       var canvas = document.getElementById("canvas");
       var ctx = canvas.getContext("2d");
 
@@ -21,12 +51,15 @@
       var height = canvas.height;
 
       var blockSize = 10;
+
       var widthInBlocks = width / blockSize;
       var heightInBlocks = height / blockSize;
 
       var score = 0;
 
-      var animationTime = 100
+      var flagForHardness = 0;
+
+      var animationTime = 1000
 
       var drawBorder = function() {
         ctx.fillStyle = "Gray";
@@ -45,6 +78,7 @@
       };
 
       var gameOver = function() {
+        flagForHardness = 0;
         proccess = false;
         ctx.font = "40px Courier";
         ctx.fillStyle = "Black";
@@ -67,6 +101,51 @@
         this.col = col;
         this.row = row;
       };
+
+      var restart = function(){
+        console.log(snake.segments);
+      }
+
+      var size1 = function(){
+        if (flagForHardness < 2) {
+          ctx.clearRect(0, 0, width, height);
+          drawScore();
+          snake.draw();
+          apple.draw();
+          drawBorder();
+          blockSize = 10;
+          blockSize
+        }
+      }
+
+      var size2 = function(){
+        if (flagForHardness < 2) {
+          ctx.clearRect(0, 0, width, height);
+          drawScore();
+          snake.draw();
+          apple.draw();
+          drawBorder();
+          widthInBlocks = 53.333333333333336;
+          heightInBlocks = 33.333333333333336;
+          blockSize = 15;
+          blockSize
+        }
+      }
+
+      var size3 = function(){
+        if (flagForHardness < 2) {
+          ctx.clearRect(0, 0, width, height);
+          drawScore();
+          snake.draw();
+          apple.draw();
+          drawBorder();
+          widthInBlocks = 40;
+          heightInBlocks = 25;
+          blockSize = 20;
+          blockSize
+        }
+      }
+
 
       var timeoutId = function(){
         if (proccess) {
@@ -127,6 +206,7 @@
 
         if (this.checkCollision(newHead) === true ) {
           gameOver();
+          return;
         }
 
         this.segments.unshift(newHead);
@@ -136,7 +216,7 @@
           if (animationTime < 10) {
             animationTime = 25
           }
-          animationTime -= 10
+          animationTime -= 5
           apple.move()
         } else {
           this.segments.pop()
@@ -147,7 +227,7 @@
         var leftCollision = (head.col === 0);
         var topCollision = (head.row === 0);
         var rightCollision = (head.col === widthInBlocks - 1);
-        var bottomCollision = (head.row === widthInBlocks - 1);
+        var bottomCollision = (head.row === heightInBlocks - 1);
 
         var wallCollision = leftCollision || rightCollision || topCollision || bottomCollision;
 
@@ -192,24 +272,40 @@
       var snake = new Snake();
       var apple = new Apple();
 
-      var proccess = true;
+      var proccess = false;
 
       var hardness1 = function(){
-        console.log("lke");
-        proccess = false;
+        if (flagForHardness < 2) {
+          animationTime = 180;
+          timeoutId();
+          proccess = true;
+          flagForHardness++;
+        }
       }
 
       var hardness2 = function(){
-        console.log("lke");
-        proccess = true;
+        if (flagForHardness < 2) {
+          animationTime = 130;
+          timeoutId();
+          proccess = true;
+          flagForHardness++;
+        }
       }
 
+      var hardness3 = function(){
+        if (flagForHardness < 2) {
+          animationTime = 80;
+          timeoutId();
+          proccess = true;
+          flagForHardness++;
+        }
+      }
 
       var gameLoop = function(){
         ctx.clearRect(0, 0, width, height);
         drawScore();
-        snake.move();
         snake.draw();
+        snake.move();
         apple.draw();
         drawBorder();
         timeoutId();
@@ -229,8 +325,15 @@
         };
       });
 
+      $("#restart").click(restart)
+
       $("#begginer").click(hardness1)
       $("#advanced").click(hardness2)
+      $("#expert").click(hardness3)
+
+      $("#size1").click(size1)
+      $("#size2").click(size2)
+      $("#size3").click(size3)
 
 
       gameLoop()

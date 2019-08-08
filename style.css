@@ -1,0 +1,39 @@
+.mainBlock{
+  display: flex;
+  flex-direction: row;
+justify-content: space-around;
+}
+
+.block2{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.blockIn1{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.blockIn2{
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+}
+
+.p1{
+  border-radius: 2px;
+  border-style: double;
+  border-color: grey;
+  text-align: center;
+  border-radius: 10px
+}
+
+.p1:hover{
+  background-color: grey;
+  opacity: 0.3
+}
+p{
+  opacity: 1!important
+}
